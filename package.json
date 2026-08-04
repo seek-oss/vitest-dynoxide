@@ -1,7 +1,7 @@
 {
   "name": "vitest-dynoxide",
   "version": "0.0.0",
-  "description": "Run Vitest tests against Dynoxide instances",
+  "description": "Vitest integration for testing against Dynoxide instances",
   "homepage": "https://github.com/seek-oss/vitest-dynoxide#readme",
   "bugs": {
     "url": "https://github.com/seek-oss/vitest-dynoxide/issues"
