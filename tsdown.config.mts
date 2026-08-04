@@ -3,22 +3,19 @@ import { defineConfig } from 'tsdown/config';
 export default defineConfig({
   failOnWarn: true,
   entry: ['src/index.ts'],
-  format: ['esm', 'cjs'],
+  format: ['esm'],
   outDir: 'lib',
   dts: true,
-  inputOptions: {
-    resolve: {
-      alias: {
-        '#src': './src',
-      },
-    },
-  },
-  checks: {
-    legacyCjs: false,
-  },
   exports: {
     devExports: '@seek/vitest-dynoxide/source',
   },
+  inputOptions: {
+    resolve: {
+      conditionNames: ['@seek/vitest-dynoxide/source']
+    }
+  },
   publint: true,
-  attw: true,
+  attw: {
+    'profile': 'esm-only'
+  },
 });

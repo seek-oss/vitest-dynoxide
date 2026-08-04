@@ -12,8 +12,8 @@ importers:
         specifier: ^24.10.2
         version: 24.13.3
       skuba:
-        specifier: 16.4.0-import-ts-20260727110649
-        version: 16.4.0-import-ts-20260727110649(@typescript-eslint/eslint-plugin@8.65.0(@typescript-eslint/parser@8.65.0(eslint@9.39.5)(typescript@6.0.3))(eslint@9.39.5)(typescript@6.0.3))(@typescript-eslint/parser@8.65.0(eslint@9.39.5)(typescript@6.0.3))(@typescript-eslint/utils@8.65.0(eslint@9.39.5)(typescript@6.0.3))(vite@8.2.0(@types/node@24.13.3)(esbuild@0.28.1)(tsx@4.23.1)(yaml@2.9.0))
+        specifier: 16.3.0-main-20260804032943
+        version: 16.3.0-main-20260804032943(@typescript-eslint/eslint-plugin@8.65.0(@typescript-eslint/parser@8.65.0(eslint@9.39.5)(typescript@6.0.3))(eslint@9.39.5)(typescript@6.0.3))(@typescript-eslint/parser@8.65.0(eslint@9.39.5)(typescript@6.0.3))(@typescript-eslint/utils@8.65.0(eslint@9.39.5)(typescript@6.0.3))(vite@8.2.0(@types/node@24.13.3)(esbuild@0.28.1)(tsx@4.23.1)(yaml@2.9.0))
 
 packages:
 
@@ -60,66 +60,66 @@ packages:
       tree-sitter-cli:
         optional: true
 
-  '@ast-grep/napi-darwin-arm64@0.44.1':
-    resolution: {integrity: sha512-JPcb1PvOkwKgccGbBgtoc4e6qfx/luvAtlc6SEtNPhvSwV8qagLb9MCSDcCiuqrqICx3qHj2CXouGbs66lCFvA==}
+  '@ast-grep/napi-darwin-arm64@0.45.0':
+    resolution: {integrity: sha512-yRf7pj+KFgCLw7mA39MjwrTu9zUnz7Kp7f/y8NrZ8Z7b3nI+eBQRvqwdG85J3nR8IJGXLbGBtCBLkrmYtAxWpQ==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [darwin]
 
-  '@ast-grep/napi-darwin-x64@0.44.1':
-    resolution: {integrity: sha512-TZj9CnCoe30mj2Nri/mMDORgkp1nkeCiw03CIRPOaUqNOvCNyMWLQhxwGJcG1KpY9MuTZsbLcQ3jju0fXZJjwQ==}
+  '@ast-grep/napi-darwin-x64@0.45.0':
+    resolution: {integrity: sha512-rS4PI6qbi828AuvnxT5Yh7rVsy8mAGiN5ruLdi99Po8Ll3v+01x3OXEC/px/816/72WFCXGWacaZ17otowgA1Q==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [darwin]
 
-  '@ast-grep/napi-linux-arm64-gnu@0.44.1':
-    resolution: {integrity: sha512-tw/7ruKolNcy97tDf/24Arb8wo/Ho2FRHk98lrmYQZZr18fFaiYjRXTCJTizOsdo6wL/asht4Rpdo/eRPuDhVw==}
+  '@ast-grep/napi-linux-arm64-gnu@0.45.0':
+    resolution: {integrity: sha512-RD0B8fwENAVfQ54+M+l4h0GtIWReefuNXohzSeu9QkKm12vsui9LLNkS5bBdYko/riW5WSeGwgToGmVLxaJBTg==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
     libc: [glibc]
 
-  '@ast-grep/napi-linux-arm64-musl@0.44.1':
-    resolution: {integrity: sha512-IJlY4GnuDqABa40xMvJp62nEQWYmk6wXtZc2sbPiQoemxAPG6X2m+eWwYpE9heAQOe6iNkXsILNH8YZHRTYayA==}
+  '@ast-grep/napi-linux-arm64-musl@0.45.0':
+    resolution: {integrity: sha512-Q4GCYojuHVM3hfLOZ9DaOQmhMTUEHYmGhkWavPQyYZGO0/cc0DqSqOqewBPpP/sM9Q2X5ZYAo0HM9nsoklEm/A==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
     libc: [musl]
 
-  '@ast-grep/napi-linux-x64-gnu@0.44.1':
-    resolution: {integrity: sha512-6YyLrXn0RcKCS/FpqAFVWWtbGNFYia5tNI6mX1PqVQPCMT5EojHDXpW2/eo6uV/BnGCsVpTocAWSpac6tACa6g==}
+  '@ast-grep/napi-linux-x64-gnu@0.45.0':
+    resolution: {integrity: sha512-yRrrvPaC0xt/kSRCrZctHwaosgEKGjSsU68yb4xqToC8Ue0TdLm0VuHjaCevzonRvO602NwKyyzYXtpFLdMzfw==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
     libc: [glibc]
 
-  '@ast-grep/napi-linux-x64-musl@0.44.1':
-    resolution: {integrity: sha512-P8ze2Srap/4RsxbrzMy/NSvkRfLwNfvfoEbwBqS/q199t3wVkpS2gT13QkANrgU+RLUgAIawnFBpjbm5XinIuQ==}
+  '@ast-grep/napi-linux-x64-musl@0.45.0':
+    resolution: {integrity: sha512-Z80/+rdrk0xxGwbYkw14/xZJ6G1nA+6R5xqiWjq4UzoNs+azQ5+zOQAuD2m/hj+asbZxcA/KD+SXVaWX0+QWgA==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
     libc: [musl]
 
-  '@ast-grep/napi-win32-arm64-msvc@0.44.1':
-    resolution: {integrity: sha512-ty5fItgu6aTDJg1fVkWwx0qboB5pFsyjRHSgi5uqXFzLbno1vOKog1pMzu3xcKcLqMiNI0axML+HdFOqSFQz0w==}
+  '@ast-grep/napi-win32-arm64-msvc@0.45.0':
+    resolution: {integrity: sha512-gfuDq5TEEZGjV0cpj9queABM0E2y/WSwloE38Og1xdHPYmxQNLaCLayfqvtBzgG911NEVoD8+DCeEAYLcgByng==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [win32]
 
-  '@ast-grep/napi-win32-ia32-msvc@0.44.1':
-    resolution: {integrity: sha512-1wTv2MrQLygnaZhlgH8aYpOkHW051CwWWowTr2AFGkn+2PMfsTTG4SEWcZArOIKlAGdWAvvlut66tLyzKhAFyw==}
+  '@ast-grep/napi-win32-ia32-msvc@0.45.0':
+    resolution: {integrity: sha512-BzysPG/tobpa4YBQ7VHPvvxPth6o3ct4LUS8A9hG0rvYdMGi5DKZya9nxSgpY/8yuxQsi9VSNAzWnCamnKWReg==}
     engines: {node: '>= 10'}
     cpu: [ia32]
     os: [win32]
 
-  '@ast-grep/napi-win32-x64-msvc@0.44.1':
-    resolution: {integrity: sha512-U8CK5JaH8YUezTJnyk97I3C5Twh9gKDB/Q3KztQdOZGeoYqthnQzM4Ntvlz8aWaVSssn7OyGMr3O8ZoK0W8aJg==}
+  '@ast-grep/napi-win32-x64-msvc@0.45.0':
+    resolution: {integrity: sha512-sBAdQUZHrZL4JECMPWtz+aFF7nK0vUG4xQ68w8UGkqKbA//8JYtddpTtpJ1hM9nYfZupZN/saprkIMWjp7cqbA==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [win32]
 
-  '@ast-grep/napi@0.44.1':
-    resolution: {integrity: sha512-dJAJVYRKmUjXn+4mXUgfRvMrWujB9mLzPSq/2e8J7n6Hn3dY4jpZNpChj6hMi7PlZ2J2c7coAVoDBaax06uvXw==}
+  '@ast-grep/napi@0.45.0':
+    resolution: {integrity: sha512-5dQqAVZeHfdQsXjH9FCn+A8a1tb+GVa3Asdq6cKP4l7O0KqH/gmWLswvSaPx7twWfpUwHtGpX7L9frPEAqfNng==}
     engines: {node: '>= 10'}
 
   '@ast-grep/setup-lang@0.0.6':
@@ -966,8 +966,8 @@ packages:
     resolution: {integrity: sha512-tlqY9xq5ukxTUZBmoOp+m61cqwQD5pHJtFY3Mn8CA8ps6yghLH/Hw8UPdqg4OLmFW3IFlcXnQNmo/dh8HzXYIQ==}
     engines: {node: '>=18'}
 
-  '@skuba-lib/api@2.3.0-import-ts-20260727110649':
-    resolution: {integrity: sha512-5APzJyvjLFOwQHnc1l+dvOb0T99jxeadEKabmQSYgBorTraqnymXvTq5CPdvARONpzAo34HD7tENCJVw6bxELg==}
+  '@skuba-lib/api@2.3.0-main-20260804032943':
+    resolution: {integrity: sha512-veahX4tuq89C9GTsEI0LQ8MxXcA8eteTUq428OQP9DWvy7r2Ggf3ggUzAlc5f+Wdqj8ehc13kQhhISko4z3ndQ==}
     engines: {node: '>=22.14.0'}
 
   '@skuba-lib/changesets-changelog@1.0.1':
@@ -1918,11 +1918,11 @@ packages:
       eslint: '>=9.22.0'
       typescript: '>=5.5.4'
 
-  eslint-config-skuba@9.2.1-import-ts-20260727110649:
-    resolution: {integrity: sha512-GMSXQDpL7verXXkayO81hwVfHsoVzbImEcsxeQ6TmQcLqeRRWQreG0e4F4Hd5E7KVGi6MsQ56jZ8gXTyJ7Evrg==}
+  eslint-config-skuba@9.3.0-main-20260804032943:
+    resolution: {integrity: sha512-GIRDcDOzCRFlymcs93o3SG2QzISnLAClFAk4QbsFvy7uxUcPtAwd6+xxNdjblwHs/b6BZefbW1sxXRCBjMnS9g==}
     engines: {node: '>=22.14.0'}
     peerDependencies:
-      eslint: '>=9.22.0'
+      eslint: ^9.22.0
       typescript: '>=5.5.4'
 
   eslint-import-context@0.1.9:
@@ -2004,11 +2004,11 @@ packages:
     peerDependencies:
       eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8 || ^9.7
 
-  eslint-plugin-skuba@3.0.0:
-    resolution: {integrity: sha512-n1FxA5q9fDPnTNRiemZ9ZzvJjec8BJc2JHr025/RgZo4X2ZYooBWgLjNW91Aq/5GxZcQaXB2QjakQeTDcGSmNQ==}
+  eslint-plugin-skuba@3.1.0-main-20260804032943:
+    resolution: {integrity: sha512-l9VrvafORsAQdiqDFxWLr/uu6pE+eAuk8N7kgN0tMQYcwad6Vjnp2z16Nu/8hwFwuKSavSJRGbFBiF+6ICmxuA==}
     engines: {node: '>=22.14.0'}
     peerDependencies:
-      eslint: '>=9.22.0'
+      eslint: ^9.22.0
       typescript-eslint: '>=8.59.2'
 
   eslint-plugin-yml@3.6.1:
@@ -3681,8 +3681,8 @@ packages:
     resolution: {integrity: sha512-kUMbT1oBJCpgrnKoSr0o6wPtvRWT9W9UKvGLwfJYO2WuahZRHOpEyL1ckyMGgMWh0UdpmaoFqKKD29WTomNEGA==}
     engines: {node: '>=8'}
 
-  skuba@16.4.0-import-ts-20260727110649:
-    resolution: {integrity: sha512-/ycNcjen29zJ25M0F2sRWSHdFXONd4qznt4RDsrkWPYUgxLvaipVw6HX8kFF9AlJ1d8opsLBJdChJtZymTdnEA==}
+  skuba@16.3.0-main-20260804032943:
+    resolution: {integrity: sha512-KftuFtf1hKb+Ha/EK97fY0AJCX5hBjx7eahM88zOGmkuh2XCCG70fI1JTkQAwhWJCOs/vGU6alJY0QkeRN2czw==}
     engines: {node: '>=22.18.0'}
     hasBin: true
 
@@ -4371,44 +4371,44 @@ snapshots:
     dependencies:
       '@ast-grep/setup-lang': 0.0.6
 
-  '@ast-grep/napi-darwin-arm64@0.44.1':
+  '@ast-grep/napi-darwin-arm64@0.45.0':
     optional: true
 
-  '@ast-grep/napi-darwin-x64@0.44.1':
+  '@ast-grep/napi-darwin-x64@0.45.0':
     optional: true
 
-  '@ast-grep/napi-linux-arm64-gnu@0.44.1':
+  '@ast-grep/napi-linux-arm64-gnu@0.45.0':
     optional: true
 
-  '@ast-grep/napi-linux-arm64-musl@0.44.1':
+  '@ast-grep/napi-linux-arm64-musl@0.45.0':
     optional: true
 
-  '@ast-grep/napi-linux-x64-gnu@0.44.1':
+  '@ast-grep/napi-linux-x64-gnu@0.45.0':
     optional: true
 
-  '@ast-grep/napi-linux-x64-musl@0.44.1':
+  '@ast-grep/napi-linux-x64-musl@0.45.0':
     optional: true
 
-  '@ast-grep/napi-win32-arm64-msvc@0.44.1':
+  '@ast-grep/napi-win32-arm64-msvc@0.45.0':
     optional: true
 
-  '@ast-grep/napi-win32-ia32-msvc@0.44.1':
+  '@ast-grep/napi-win32-ia32-msvc@0.45.0':
     optional: true
 
-  '@ast-grep/napi-win32-x64-msvc@0.44.1':
+  '@ast-grep/napi-win32-x64-msvc@0.45.0':
     optional: true
 
-  '@ast-grep/napi@0.44.1':
+  '@ast-grep/napi@0.45.0':
     optionalDependencies:
-      '@ast-grep/napi-darwin-arm64': 0.44.1
-      '@ast-grep/napi-darwin-x64': 0.44.1
-      '@ast-grep/napi-linux-arm64-gnu': 0.44.1
-      '@ast-grep/napi-linux-arm64-musl': 0.44.1
-      '@ast-grep/napi-linux-x64-gnu': 0.44.1
-      '@ast-grep/napi-linux-x64-musl': 0.44.1
-      '@ast-grep/napi-win32-arm64-msvc': 0.44.1
-      '@ast-grep/napi-win32-ia32-msvc': 0.44.1
-      '@ast-grep/napi-win32-x64-msvc': 0.44.1
+      '@ast-grep/napi-darwin-arm64': 0.45.0
+      '@ast-grep/napi-darwin-x64': 0.45.0
+      '@ast-grep/napi-linux-arm64-gnu': 0.45.0
+      '@ast-grep/napi-linux-arm64-musl': 0.45.0
+      '@ast-grep/napi-linux-x64-gnu': 0.45.0
+      '@ast-grep/napi-linux-x64-musl': 0.45.0
+      '@ast-grep/napi-win32-arm64-msvc': 0.45.0
+      '@ast-grep/napi-win32-ia32-msvc': 0.45.0
+      '@ast-grep/napi-win32-x64-msvc': 0.45.0
 
   '@ast-grep/setup-lang@0.0.6': {}
 
@@ -5326,7 +5326,7 @@ snapshots:
 
   '@sindresorhus/merge-streams@4.0.0': {}
 
-  '@skuba-lib/api@2.3.0-import-ts-20260727110649':
+  '@skuba-lib/api@2.3.0-main-20260804032943':
     dependencies:
       '@octokit/graphql': 9.0.3
       '@octokit/rest': 22.0.1
@@ -6340,11 +6340,11 @@ snapshots:
       - supports-color
       - vitest
 
-  eslint-config-skuba@9.2.1-import-ts-20260727110649(@typescript-eslint/eslint-plugin@8.65.0(@typescript-eslint/parser@8.65.0(eslint@9.39.5)(typescript@6.0.3))(eslint@9.39.5)(typescript@6.0.3))(@typescript-eslint/parser@8.65.0(eslint@9.39.5)(typescript@6.0.3))(@typescript-eslint/utils@8.65.0(eslint@9.39.5)(typescript@6.0.3))(eslint@9.39.5)(typescript@6.0.3)(vitest@4.1.10):
+  eslint-config-skuba@9.3.0-main-20260804032943(@typescript-eslint/eslint-plugin@8.65.0(@typescript-eslint/parser@8.65.0(eslint@9.39.5)(typescript@6.0.3))(eslint@9.39.5)(typescript@6.0.3))(@typescript-eslint/parser@8.65.0(eslint@9.39.5)(typescript@6.0.3))(@typescript-eslint/utils@8.65.0(eslint@9.39.5)(typescript@6.0.3))(eslint@9.39.5)(typescript@6.0.3)(vitest@4.1.10):
     dependencies:
       eslint: 9.39.5
       eslint-config-seek: 15.0.6(@typescript-eslint/eslint-plugin@8.65.0(@typescript-eslint/parser@8.65.0(eslint@9.39.5)(typescript@6.0.3))(eslint@9.39.5)(typescript@6.0.3))(@typescript-eslint/parser@8.65.0(eslint@9.39.5)(typescript@6.0.3))(@typescript-eslint/utils@8.65.0(eslint@9.39.5)(typescript@6.0.3))(eslint@9.39.5)(typescript@6.0.3)(vitest@4.1.10)
-      eslint-plugin-skuba: 3.0.0(eslint@9.39.5)(typescript-eslint@8.65.0(eslint@9.39.5)(typescript@6.0.3))(typescript@6.0.3)
+      eslint-plugin-skuba: 3.1.0-main-20260804032943(eslint@9.39.5)(typescript-eslint@8.65.0(eslint@9.39.5)(typescript@6.0.3))(typescript@6.0.3)
       eslint-plugin-yml: 3.6.1(eslint@9.39.5)
       typescript: 6.0.3
       typescript-eslint: 8.65.0(eslint@9.39.5)(typescript@6.0.3)
@@ -6445,7 +6445,7 @@ snapshots:
       string.prototype.matchall: 4.0.12
       string.prototype.repeat: 1.0.0
 
-  eslint-plugin-skuba@3.0.0(eslint@9.39.5)(typescript-eslint@8.65.0(eslint@9.39.5)(typescript@6.0.3))(typescript@6.0.3):
+  eslint-plugin-skuba@3.1.0-main-20260804032943(eslint@9.39.5)(typescript-eslint@8.65.0(eslint@9.39.5)(typescript@6.0.3))(typescript@6.0.3):
     dependencies:
       '@typescript-eslint/utils': 8.65.0(eslint@9.39.5)(typescript@6.0.3)
       eslint: 9.39.5
@@ -8129,13 +8129,13 @@ snapshots:
     dependencies:
       unicode-emoji-modifier-base: 1.0.0
 
-  skuba@16.4.0-import-ts-20260727110649(@typescript-eslint/eslint-plugin@8.65.0(@typescript-eslint/parser@8.65.0(eslint@9.39.5)(typescript@6.0.3))(eslint@9.39.5)(typescript@6.0.3))(@typescript-eslint/parser@8.65.0(eslint@9.39.5)(typescript@6.0.3))(@typescript-eslint/utils@8.65.0(eslint@9.39.5)(typescript@6.0.3))(vite@8.2.0(@types/node@24.13.3)(esbuild@0.28.1)(tsx@4.23.1)(yaml@2.9.0)):
+  skuba@16.3.0-main-20260804032943(@typescript-eslint/eslint-plugin@8.65.0(@typescript-eslint/parser@8.65.0(eslint@9.39.5)(typescript@6.0.3))(eslint@9.39.5)(typescript@6.0.3))(@typescript-eslint/parser@8.65.0(eslint@9.39.5)(typescript@6.0.3))(@typescript-eslint/utils@8.65.0(eslint@9.39.5)(typescript@6.0.3))(vite@8.2.0(@types/node@24.13.3)(esbuild@0.28.1)(tsx@4.23.1)(yaml@2.9.0)):
     dependencies:
       '@arethetypeswrong/core': 0.18.5
       '@ast-grep/lang-bash': 0.0.8
       '@ast-grep/lang-json': 0.0.7
       '@ast-grep/lang-yaml': 0.0.6
-      '@ast-grep/napi': 0.44.1
+      '@ast-grep/napi': 0.45.0
       '@changesets/cli': 2.31.1(@types/node@24.13.3)
       '@esbuild-plugins/tsconfig-paths': 0.1.2(esbuild@0.28.1)(typescript@6.0.3)
       '@inquirer/prompts': 8.5.2(@types/node@24.13.3)
@@ -8143,7 +8143,7 @@ snapshots:
       '@octokit/graphql-schema': 15.26.1
       '@octokit/rest': 22.0.1
       '@octokit/types': 16.0.0
-      '@skuba-lib/api': 2.3.0-import-ts-20260727110649
+      '@skuba-lib/api': 2.3.0-main-20260804032943
       '@skuba-lib/changesets-changelog': 1.0.1
       '@types/node': 24.13.3
       '@vitest/coverage-istanbul': 4.1.10(vitest@4.1.10)
@@ -8154,7 +8154,7 @@ snapshots:
       ejs: 6.0.1
       esbuild: 0.28.1
       eslint: 9.39.5
-      eslint-config-skuba: 9.2.1-import-ts-20260727110649(@typescript-eslint/eslint-plugin@8.65.0(@typescript-eslint/parser@8.65.0(eslint@9.39.5)(typescript@6.0.3))(eslint@9.39.5)(typescript@6.0.3))(@typescript-eslint/parser@8.65.0(eslint@9.39.5)(typescript@6.0.3))(@typescript-eslint/utils@8.65.0(eslint@9.39.5)(typescript@6.0.3))(eslint@9.39.5)(typescript@6.0.3)(vitest@4.1.10)
+      eslint-config-skuba: 9.3.0-main-20260804032943(@typescript-eslint/eslint-plugin@8.65.0(@typescript-eslint/parser@8.65.0(eslint@9.39.5)(typescript@6.0.3))(eslint@9.39.5)(typescript@6.0.3))(@typescript-eslint/parser@8.65.0(eslint@9.39.5)(typescript@6.0.3))(@typescript-eslint/utils@8.65.0(eslint@9.39.5)(typescript@6.0.3))(eslint@9.39.5)(typescript@6.0.3)(vitest@4.1.10)
       execa: 9.6.1
       fast-glob: 3.3.3
       find-up: 8.0.0
