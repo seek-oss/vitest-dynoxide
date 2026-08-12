@@ -42,7 +42,7 @@
   },
   "devDependencies": {
     "@types/node": "^24.10.2",
-    "skuba": "16.3.0-main-20260804032943"
+    "skuba": "16.3.0"
   },
   "packageManager": "pnpm@10.34.5",
   "engines": {
@@ -58,6 +58,6 @@
     "entryPoint": "src/index.ts",
     "template": "oss-npm-package",
     "type": "package",
-    "version": "16.4.0-import-ts-20260727110649"
+    "version": "16.3.0"
   }
 }

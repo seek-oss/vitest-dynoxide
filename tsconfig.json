@@ -1,7 +1,5 @@
 {
   "compilerOptions": {
-    "allowImportingTsExtensions": true,
-    "rewriteRelativeImportExtensions": true,
     "customConditions": ["@seek/vitest-dynoxide/source"],
     "rootDir": ".",
     "lib": ["ES2023"],
