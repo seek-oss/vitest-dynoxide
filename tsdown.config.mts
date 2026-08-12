@@ -11,11 +11,11 @@ export default defineConfig({
   },
   inputOptions: {
     resolve: {
-      conditionNames: ['@seek/vitest-dynoxide/source']
-    }
+      conditionNames: ['@seek/vitest-dynoxide/source'],
+    },
   },
   publint: true,
   attw: {
-    'profile': 'esm-only'
+    profile: 'esm-only',
   },
 });
