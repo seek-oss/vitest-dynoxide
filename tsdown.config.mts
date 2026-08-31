@@ -2,7 +2,7 @@ import { defineConfig } from 'tsdown/config';
 
 export default defineConfig({
   failOnWarn: true,
-  entry: ['src/index.ts'],
+  entry: ['src/index.ts', 'src/globalSetup.ts', 'src/setupFile.ts'],
   format: ['esm'],
   outDir: 'lib',
   dts: true,

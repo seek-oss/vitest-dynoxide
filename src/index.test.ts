@@ -1,10 +1,11 @@
 import { describe, expect, it } from 'vitest';
 
-import { log } from './index.js';
+import { defineConfig } from './index.js';
 
-describe('app', () => {
-  it('defines a log function', () => {
-    expect(log).toBeDefined();
-    expect(log()).toBeUndefined();
+describe('defineConfig', () => {
+  it('returns the config as-is', () => {
+    const config = { tables: ['PostingPreferences'] };
+
+    expect(defineConfig(config)).toEqual(config);
   });
 });
