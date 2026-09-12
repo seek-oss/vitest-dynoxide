@@ -49,7 +49,8 @@
     "version": "changeset version"
   },
   "dependencies": {
-    "dynoxide": "^0.13.0",
+    "@aws-sdk/client-dynamodb": "^3.0.0",
+    "dynoxide": "^1.1.0",
     "zod": "^4.4.3"
   },
   "devDependencies": {
@@ -57,7 +58,6 @@
     "skuba": "16.3.0"
   },
   "peerDependencies": {
-    "@aws-sdk/client-dynamodb": "^3.0.0",
     "vitest": "^4.1.10"
   },
   "packageManager": "pnpm@10.34.5",

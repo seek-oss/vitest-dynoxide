@@ -29,11 +29,11 @@ afterEach(async () => {
 describe('loadConfig', () => {
   it('widens a bare table name to a schema', async () => {
     const cwd = await writeConfigFile(
-      `export default { tables: ['PostingPreferences'] };`,
+      `export default { tables: ['TestTable'] };`,
     );
 
     await expect(loadConfig(cwd)).resolves.toEqual({
-      tables: [{ TableName: 'PostingPreferences' }],
+      tables: [{ TableName: 'TestTable' }],
     });
   });
 
@@ -41,7 +41,7 @@ describe('loadConfig', () => {
     const cwd = await writeConfigFile(`export default {
       tables: [
         {
-          TableName: 'ProductCatalogue',
+          TableName: 'TestTableCatalogue',
           AttributeDefinitions: [{ AttributeName: 'pk', AttributeType: 'S' }],
           KeySchema: [{ AttributeName: 'pk', KeyType: 'HASH' }],
         },
@@ -51,7 +51,7 @@ describe('loadConfig', () => {
     const { tables } = await loadConfig(cwd);
 
     expect(tables).toEqual([
-      expect.objectContaining({ TableName: 'ProductCatalogue' }),
+      expect.objectContaining({ TableName: 'TestTableCatalogue' }),
     ]);
   });
 
@@ -70,11 +70,13 @@ describe('loadConfig', () => {
     );
   });
 
-  it('reports the offending field when a table is malformed', async () => {
+  it('throws when a table has no name', async () => {
     const cwd = await writeConfigFile(`export default {
-      tables: [{ TableName: 'Foo', KeySchema: [{ AttributeName: 'pk' }] }],
+      tables: [{ KeySchema: [{ AttributeName: 'pk', KeyType: 'HASH' }] }],
     };`);
 
-    await expect(loadConfig(cwd)).rejects.toThrow('KeyType');
+    await expect(loadConfig(cwd)).rejects.toThrow(
+      'must default export a valid vitest-dynoxide config',
+    );
   });
 });

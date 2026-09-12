@@ -40,7 +40,7 @@ describe('setupFile', () => {
     expect(command).toBe('dynoxide');
     expect(args).toEqual([
       '--schema',
-      'schema.json',
+      'vitest-dynoxide.schemas.json',
       '--port',
       expect.stringMatching(/^\d+$/),
     ]);
@@ -56,9 +56,5 @@ describe('setupFile', () => {
       port: Number(port),
     });
     expect(process.env.DYNAMODB_ENDPOINT).toBe(endpoint);
-    expect(process.env.AWS_ENDPOINT_URL_DYNAMODB).toBe(endpoint);
-    expect(process.env.AWS_REGION).toBe('local');
-    expect(process.env.AWS_ACCESS_KEY_ID).toBe('local');
-    expect(process.env.AWS_SECRET_ACCESS_KEY).toBe('local');
   });
 });

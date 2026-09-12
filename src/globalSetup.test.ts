@@ -5,12 +5,7 @@ import path from 'path';
 import type { DescribeTableCommandOutput } from '@aws-sdk/client-dynamodb';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import {
-  createSchemaFile,
-  schemaFilePath,
-  setup,
-  teardown,
-} from './globalSetup.js';
+import { createSchemaFile, schemaFilePath, setup } from './globalSetup.js';
 
 const send = vi.fn();
 
@@ -44,7 +39,7 @@ afterEach(async () => {
 describe('createSchemaFile', () => {
   it('writes a fully supplied table without describing it', async () => {
     const table = {
-      TableName: 'ProductCatalogue',
+      TableName: 'TestTableCatalogue',
       AttributeDefinitions: [
         { AttributeName: 'pk', AttributeType: 'S' as const },
       ],
@@ -60,19 +55,19 @@ describe('createSchemaFile', () => {
   it('infers a bare table from DescribeTable', async () => {
     send.mockResolvedValue(
       describeTableResponse({
-        TableName: 'PostingPreferences',
+        TableName: 'TestTable',
         AttributeDefinitions: [{ AttributeName: 'pk', AttributeType: 'S' }],
         KeySchema: [{ AttributeName: 'pk', KeyType: 'HASH' }],
       }),
     );
 
-    await createSchemaFile([{ TableName: 'PostingPreferences' }], cwd);
+    await createSchemaFile([{ TableName: 'TestTable' }], cwd);
 
     expect(send).toHaveBeenCalledTimes(1);
     await expect(readSchemaFile(cwd)).resolves.toEqual([
       {
         Table: {
-          TableName: 'PostingPreferences',
+          TableName: 'TestTable',
           AttributeDefinitions: [{ AttributeName: 'pk', AttributeType: 'S' }],
           KeySchema: [{ AttributeName: 'pk', KeyType: 'HASH' }],
         },
@@ -93,7 +88,7 @@ describe('createSchemaFile', () => {
     await createSchemaFile(
       [
         {
-          TableName: 'PostingPreferences',
+          TableName: 'TestTable',
           KeySchema: [{ AttributeName: 'supplied', KeyType: 'HASH' }],
         },
       ],
@@ -103,7 +98,7 @@ describe('createSchemaFile', () => {
     await expect(readSchemaFile(cwd)).resolves.toEqual([
       {
         Table: {
-          TableName: 'PostingPreferences',
+          TableName: 'TestTable',
           AttributeDefinitions: [
             { AttributeName: 'inferred', AttributeType: 'S' },
           ],
@@ -213,10 +208,22 @@ describe('setup', () => {
       await expect(readSchemaFile(cwd)).resolves.toEqual([
         { Table: expect.objectContaining({ TableName: 'Foo' }) },
       ]);
+    } finally {
+      cwdSpy.mockRestore();
+    }
+  });
 
-      await teardown();
+  it('reuses an existing schema file', async () => {
+    const schema = [{ Table: { TableName: 'CachedTable' } }];
+    await fs.writeFile(schemaFilePath(cwd), JSON.stringify(schema));
 
-      await expect(fs.access(schemaFilePath(cwd))).rejects.toThrow();
+    const cwdSpy = vi.spyOn(process, 'cwd').mockReturnValue(cwd);
+
+    try {
+      await setup();
+
+      await expect(readSchemaFile(cwd)).resolves.toEqual(schema);
+      expect(send).not.toHaveBeenCalled();
     } finally {
       cwdSpy.mockRestore();
     }

@@ -11,7 +11,7 @@ import {
 import { type TableSchema, loadConfig } from './config.js';
 
 export const schemaFilePath = (cwd: string = process.cwd()) =>
-  path.resolve(cwd, 'schema.json');
+  path.resolve(cwd, 'vitest-dynoxide.schemas.json');
 
 const toSecondaryIndexes = (
   indexes:
@@ -64,11 +64,16 @@ export const createSchemaFile = async (tables: TableSchema[], cwd?: string) => {
 };
 
 export const setup = async () => {
+  const hasSchemaFile = await fs.access(schemaFilePath()).then(
+    () => true,
+    () => false,
+  );
+
+  if (hasSchemaFile) {
+    return;
+  }
+
   const { tables } = await loadConfig();
 
   await createSchemaFile(tables);
-};
-
-export const teardown = async () => {
-  await fs.rm(schemaFilePath(), { force: true });
 };

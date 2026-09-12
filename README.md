@@ -47,7 +47,7 @@ Create a `vitest-dynoxide-config.ts` in your project root:
 import { defineConfig } from 'vitest-dynoxide';
 
 export default defineConfig({
-  tables: ['PostingPreferences'],
+  tables: ['TestTable'],
 });
 ```
 
@@ -67,9 +67,9 @@ import { defineConfig } from 'vitest-dynoxide';
 
 export default defineConfig({
   tables: [
-    'PostingPreferences',
+    'TestTable',
     {
-      TableName: 'ProductCatalogue',
+      TableName: 'TestTableCatalogue',
       AttributeDefinitions: [
         { AttributeName: 'pk', AttributeType: 'S' },
         { AttributeName: 'sk', AttributeType: 'S' },
@@ -89,7 +89,7 @@ and anything you supply is never overwritten:
 
 ```typescript
 {
-  TableName: 'ProductCatalogue',
+  TableName: 'TestTableCatalogue',
   // Inferred: AttributeDefinitions, GlobalSecondaryIndexes, LocalSecondaryIndexes
   KeySchema: [{ AttributeName: 'pk', KeyType: 'HASH' }],
 }
@@ -151,24 +151,24 @@ import { Env } from 'skuba-dive';
 import { config } from '#src/config.js';
 
 const dbEndpoints = {
-  preferences: {
-    host: Env.string('PREFERENCES_DYNAMODB_HOST', { default: 'localhost' }),
-    port: Env.nonNegativeInteger('PREFERENCES_DYNAMODB_PORT', {
+  testTable: {
+    host: Env.string('TEST_TABLE_DYNAMODB_HOST', { default: 'localhost' }),
+    port: Env.nonNegativeInteger('TEST_TABLE_DYNAMODB_PORT', {
       default: '8003',
     }),
   },
   // ...
 };
 
-const preferencesOptions =
+const testTableOptions =
   config.dynamodbEnvironment === 'local'
     ? {
         region: 'local',
-        endpoint: `http://${dbEndpoints.preferences.host}:${dbEndpoints.preferences.port}`,
+        endpoint: `http://${dbEndpoints.testTable.host}:${dbEndpoints.testTable.port}`,
       }
     : {};
 
-const preferencesClient = new DynamoDBClient(preferencesOptions);
+const testTableClient = new DynamoDBClient(testTableOptions);
 ```
 
 After:
@@ -185,10 +185,10 @@ const localOptions = {
   credentials: { accessKeyId: 'local', secretAccessKey: 'local' },
 };
 
-const preferencesOptions =
+const testTableOptions =
   config.dynamodbEnvironment === 'local' ? localOptions : {};
 
-const preferencesClient = new DynamoDBClient(preferencesOptions);
+const testTableClient = new DynamoDBClient(testTableOptions);
 ```
 
 The setup file also sets `AWS_REGION` and local credentials,
@@ -206,40 +206,44 @@ Then write tests as normal —
 each file starts with empty tables:
 
 ```typescript
-it('round-trips a posting preference', async () => {
+it('round-trips a test table', async () => {
   await client.send(
     new PutItemCommand({
-      TableName: 'PostingPreferences',
-      Item: { pk: { S: 'advertiser-1' } },
+      TableName: 'TestTable',
+      Item: { pk: { S: 'primary-key-1' } },
     }),
   );
 
   const { Item } = await client.send(
     new GetItemCommand({
-      TableName: 'PostingPreferences',
-      Key: { pk: { S: 'advertiser-1' } },
+      TableName: 'TestTable',
+      Key: { pk: { S: 'primary-key-1' } },
     }),
   );
 
-  expect(Item).toEqual({ pk: { S: 'advertiser-1' } });
+  expect(Item).toEqual({ pk: { S: 'primary-key-1' } });
 });
 ```
 
-5. Add `/schema.json` to `.gitignore`
+5. Add `/vitest-dynoxide.schemas.json` to `.gitignore`
 
-Global setup will write a `/schema.json` to the project root that is removed on teardown.
+Global setup writes `/vitest-dynoxide.schemas.json` to the project root
+and reuses it between test runs.
+Delete the file whenever you need to refresh your local schema from AWS.
+Because the file is ignored, CI generates a fresh schema from AWS on each clean checkout.
 
 ### How it works
 
 Global setup runs once per `vitest` invocation.
-It loads your config,
+If `vitest-dynoxide.schemas.json` does not exist,
+it loads your config,
 fills in any missing table definitions via `DescribeTable`,
-and writes a `schema.json` to your project root.
-The file is removed on teardown.
+and writes the file to your project root.
+If the file already exists, it is reused without making AWS calls.
 
 The setup file then runs once per test file.
 It picks a random port,
-spawns `dynoxide --schema schema.json` on it,
+spawns `dynoxide --schema vitest-dynoxide.schemas.json` on it,
 waits until the instance accepts connections,
 and exposes its IPv4 endpoint through the AWS SDK environment variables,
 and kills the process in `afterAll`.
