@@ -68,6 +68,16 @@ describe('loadConfig', () => {
     );
   });
 
+  it('includes non-Error config load failures', async () => {
+    const cwd = await writeConfigFile(`throw 'broken config';`);
+    vi.spyOn(process, 'cwd').mockReturnValue(cwd);
+
+    await expect(loadConfig()).rejects.toThrow(
+      'vitest-dynoxide failed to load config file',
+    );
+    await expect(loadConfig()).rejects.toThrow('broken config');
+  });
+
   it('throws when the config lists no tables', async () => {
     const cwd = await writeConfigFile(`export default { tables: [] };`);
     vi.spyOn(process, 'cwd').mockReturnValue(cwd);
