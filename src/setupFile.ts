@@ -26,6 +26,7 @@ const canConnect = (port: number) =>
 // isolated without needing Docker.
 const DYNAMODB_PORT = 10000 + Math.floor(Math.random() * 10000);
 const DYNAMODB_ENDPOINT = `http://127.0.0.1:${DYNAMODB_PORT}`;
+vi.stubEnv('AWS_REGION', 'local');
 vi.stubEnv('AWS_ENDPOINT_URL_DYNAMODB', DYNAMODB_ENDPOINT);
 
 const dynoxideBin = fileURLToPath(import.meta.resolve('dynoxide/bin/dynoxide'));
