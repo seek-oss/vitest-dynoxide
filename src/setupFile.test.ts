@@ -1,4 +1,5 @@
 import { spawn } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
 
 import { describe, expect, it, vi } from 'vitest';
 
@@ -37,7 +38,9 @@ const [command, args] = vi.mocked(spawn).mock.calls[0] ?? [];
 
 describe('setupFile', () => {
   it('spawns dynoxide against the generated schema file', () => {
-    expect(command).toBe('dynoxide');
+    expect(command).toBe(
+      fileURLToPath(import.meta.resolve('dynoxide/bin/dynoxide')),
+    );
     expect(args).toEqual([
       '--schema',
       'vitest-dynoxide.schemas.json',

@@ -2,7 +2,7 @@ import fs from 'fs/promises';
 import os from 'os';
 import path from 'path';
 
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { loadConfig } from './config.js';
 
@@ -22,6 +22,7 @@ const writeConfigFile = async (contents: string, fileName = 'config.ts') => {
 };
 
 afterEach(async () => {
+  vi.restoreAllMocks();
   await Promise.all(tempDirs.map((dir) => fs.rm(dir, { recursive: true })));
   tempDirs.length = 0;
 });
@@ -31,8 +32,9 @@ describe('loadConfig', () => {
     const cwd = await writeConfigFile(
       `export default { tables: ['TestTable'] };`,
     );
+    vi.spyOn(process, 'cwd').mockReturnValue(cwd);
 
-    await expect(loadConfig(cwd)).resolves.toEqual({
+    await expect(loadConfig()).resolves.toEqual({
       tables: [{ TableName: 'TestTable' }],
     });
   });
@@ -47,8 +49,9 @@ describe('loadConfig', () => {
         },
       ],
     };`);
+    vi.spyOn(process, 'cwd').mockReturnValue(cwd);
 
-    const { tables } = await loadConfig(cwd);
+    const { tables } = await loadConfig();
 
     expect(tables).toEqual([
       expect.objectContaining({ TableName: 'TestTableCatalogue' }),
@@ -58,14 +61,18 @@ describe('loadConfig', () => {
   it('throws when no config file is present', async () => {
     const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'vitest-dynoxide-'));
     tempDirs.push(dir);
+    vi.spyOn(process, 'cwd').mockReturnValue(dir);
 
-    await expect(loadConfig(dir)).rejects.toThrow('could not find a config');
+    await expect(loadConfig()).rejects.toThrow(
+      'vitest-dynoxide failed to load config file',
+    );
   });
 
   it('throws when the config lists no tables', async () => {
     const cwd = await writeConfigFile(`export default { tables: [] };`);
+    vi.spyOn(process, 'cwd').mockReturnValue(cwd);
 
-    await expect(loadConfig(cwd)).rejects.toThrow(
+    await expect(loadConfig()).rejects.toThrow(
       'must default export a valid vitest-dynoxide config',
     );
   });
@@ -74,8 +81,9 @@ describe('loadConfig', () => {
     const cwd = await writeConfigFile(`export default {
       tables: [{ KeySchema: [{ AttributeName: 'pk', KeyType: 'HASH' }] }],
     };`);
+    vi.spyOn(process, 'cwd').mockReturnValue(cwd);
 
-    await expect(loadConfig(cwd)).rejects.toThrow(
+    await expect(loadConfig()).rejects.toThrow(
       'must default export a valid vitest-dynoxide config',
     );
   });

@@ -1,4 +1,3 @@
-import fs from 'fs/promises';
 import path from 'path';
 import { pathToFileURL } from 'url';
 
@@ -29,22 +28,6 @@ export type ResolvedConfig = {
 
 export const defineConfig = (config: VitestDynoxideConfig) => config;
 
-const fileExists = (filePath: string) =>
-  fs.access(filePath).then(
-    () => true,
-    () => false,
-  );
-
-const findConfigFile = async (cwd: string): Promise<string | undefined> => {
-  const filePath = path.resolve(cwd, 'vitest-dynoxide-config.ts');
-
-  if (await fileExists(filePath)) {
-    return filePath;
-  }
-
-  return undefined;
-};
-
 const tableSchemaSchema: z.ZodType<TableSchema> = z.looseObject({
   TableName: z.string(),
 });
@@ -58,10 +41,10 @@ const configSchema: z.ZodType<ResolvedConfig> = z.object({
 
 const moduleSchema = z.object({ default: configSchema });
 
-export const loadConfig = async (
-  cwd: string = process.cwd(),
-): Promise<ResolvedConfig> => {
+export const loadConfig = async (): Promise<ResolvedConfig> => {
+  const filePath = path.resolve(process.cwd(), 'vitest-dynoxide-config.ts');
   let module: unknown;
+
   try {
     module = await import(pathToFileURL(filePath).href);
   } catch (error) {
