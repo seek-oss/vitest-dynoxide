@@ -58,6 +58,6 @@ describe('setupFile', () => {
       host: '127.0.0.1',
       port: Number(port),
     });
-    expect(process.env.DYNAMODB_ENDPOINT).toBe(endpoint);
+    expect(process.env.AWS_ENDPOINT_URL_DYNAMODB).toBe(endpoint);
   });
 });

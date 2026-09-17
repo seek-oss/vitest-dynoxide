@@ -29,7 +29,7 @@ export default defineConfig(
               './src/globalSetup.ts',
             ],
             include: ['tests/default/**/*.test.ts'],
-            setupFiles: ['vitest-dynoxide/setupFile'],
+            setupFiles: ['./src/setupFile.ts'],
           },
         },
       ],
