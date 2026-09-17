@@ -61,15 +61,16 @@ const moduleSchema = z.object({ default: configSchema });
 export const loadConfig = async (
   cwd: string = process.cwd(),
 ): Promise<ResolvedConfig> => {
-  const filePath = await findConfigFile(cwd);
-
-  if (!filePath) {
+  let module: unknown;
+  try {
+    module = await import(pathToFileURL(filePath).href);
+  } catch (error) {
     throw new Error(
-      `vitest-dynoxide could not find a config file in ${cwd}. Create one of: vitest-dynoxide-config.ts`,
+      `vitest-dynoxide failed to load config file ${filePath}: ${
+        error instanceof Error ? error.message : String(error)
+      }`,
     );
   }
-
-  const module: unknown = await import(pathToFileURL(filePath).href);
   const result = moduleSchema.safeParse(module);
 
   if (!result.success) {
