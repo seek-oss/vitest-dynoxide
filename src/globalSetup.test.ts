@@ -75,6 +75,33 @@ describe('createSchemaFile', () => {
     ]);
   });
 
+  it('infers a cross-account table by ARN using its local table name', async () => {
+    const tableArn =
+      'arn:aws:dynamodb:ap-southeast-2:007370059916:table/PostingPreferences';
+    send.mockResolvedValue(
+      describeTableResponse({
+        TableName: 'PostingPreferences',
+        AttributeDefinitions: [{ AttributeName: 'pk', AttributeType: 'S' }],
+        KeySchema: [{ AttributeName: 'pk', KeyType: 'HASH' }],
+      }),
+    );
+
+    await createSchemaFile([{ TableName: tableArn }], cwd);
+
+    expect(send).toHaveBeenCalledWith({
+      input: { TableName: tableArn },
+    });
+    await expect(readSchemaFile(cwd)).resolves.toEqual([
+      {
+        Table: {
+          TableName: 'PostingPreferences',
+          AttributeDefinitions: [{ AttributeName: 'pk', AttributeType: 'S' }],
+          KeySchema: [{ AttributeName: 'pk', KeyType: 'HASH' }],
+        },
+      },
+    ]);
+  });
+
   it('keeps supplied fields when filling in the rest', async () => {
     send.mockResolvedValue(
       describeTableResponse({

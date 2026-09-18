@@ -33,21 +33,22 @@ const resolveTable = async (
     return table;
   }
 
-  const { Table } = await client.send(
-    new DescribeTableCommand({ TableName: table.TableName }),
+  const sourceTableIdentifier = table.TableName;
+  const { Table: describedTable } = await client.send(
+    new DescribeTableCommand({ TableName: sourceTableIdentifier }),
   );
 
   return {
-    TableName: table.TableName,
+    TableName: describedTable?.TableName ?? sourceTableIdentifier,
     AttributeDefinitions:
-      table.AttributeDefinitions ?? Table?.AttributeDefinitions,
-    KeySchema: table.KeySchema ?? Table?.KeySchema,
+      table.AttributeDefinitions ?? describedTable?.AttributeDefinitions,
+    KeySchema: table.KeySchema ?? describedTable?.KeySchema,
     GlobalSecondaryIndexes:
       table.GlobalSecondaryIndexes ??
-      toSecondaryIndexes(Table?.GlobalSecondaryIndexes),
+      toSecondaryIndexes(describedTable?.GlobalSecondaryIndexes),
     LocalSecondaryIndexes:
       table.LocalSecondaryIndexes ??
-      toSecondaryIndexes(Table?.LocalSecondaryIndexes),
+      toSecondaryIndexes(describedTable?.LocalSecondaryIndexes),
   };
 };
 

@@ -51,13 +51,30 @@ export default defineConfig({
 });
 ```
 
-Each entry is either a **table name** or a **full definition**.
+Each entry is either a **table name**, a **full table ARN**, or a
+**full definition**.
 
-A table name is inferred:
+A table name or ARN acts as the source table identifier:
 `DescribeTable` is called against the real table
 and its key schema and indexes are copied into the local instance.
 This needs AWS credentials and a table that exists,
 but keeps the config to one line.
+
+A bare table name targets the account associated with your AWS credentials.
+To infer a table from another account, use its full ARN:
+
+```typescript
+export default defineConfig({
+  tables: [
+    'arn:aws:dynamodb:ap-southeast-2:007370059916:table/PostingPreferences',
+  ],
+});
+```
+
+The source table identifier is passed unchanged to `DescribeTable`.
+The caller's identity policy and the table's resource policy must both allow
+that operation. The local table uses the plain name returned by AWS, so
+application code continues to access `PostingPreferences`.
 
 A full definition is used as-is and makes no AWS calls,
 so your tests run offline:
@@ -284,6 +301,7 @@ read past the `expected string` half:
 **Credential or `ResourceNotFoundException` errors during setup** —
 a bare table name triggers a live `DescribeTable`.
 Either authenticate against the account holding that table,
+use a full table ARN with cross-account permissions,
 or spell the definition out in full to run offline.
 
 ## Development
