@@ -24,6 +24,14 @@
       "@seek/vitest-dynoxide/source": "./src/index.ts",
       "default": "./lib/index.mjs"
     },
+    "./globalSetup": {
+      "@seek/vitest-dynoxide/source": "./src/globalSetup.ts",
+      "default": "./lib/globalSetup.mjs"
+    },
+    "./setupFile": {
+      "@seek/vitest-dynoxide/source": "./src/setupFile.ts",
+      "default": "./lib/setupFile.mjs"
+    },
     "./package.json": "./package.json"
   },
   "types": "./lib/index.d.mts",
@@ -40,9 +48,17 @@
     "test:watch": "skuba test --watch",
     "version": "changeset version"
   },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.0.0",
+    "dynoxide": "^1.1.0",
+    "zod": "^4.4.3"
+  },
   "devDependencies": {
     "@types/node": "^24.10.2",
     "skuba": "16.3.0"
+  },
+  "peerDependencies": {
+    "vitest": "^4.1.10"
   },
   "packageManager": "pnpm@10.34.5",
   "engines": {
@@ -51,6 +67,8 @@
   "publishConfig": {
     "exports": {
       ".": "./lib/index.mjs",
+      "./globalSetup": "./lib/globalSetup.mjs",
+      "./setupFile": "./lib/setupFile.mjs",
       "./package.json": "./package.json"
     }
   },
