@@ -133,10 +133,13 @@ export default defineConfig({
   test: {
     fileParallelism: true,
     globalSetup: ['vitest-dynoxide/globalSetup'],
-    setupFiles: ['vitest-dynoxide/setupFile'],
+    setupFiles: ['vitest-dynoxide/setupFile', 'vitest-dynoxide/clearTables'],
   },
 });
 ```
+
+The `clearTables` entry point deletes and recreates every configured table in a
+`beforeEach` hook.
 
 ### 4. Construct your client
 

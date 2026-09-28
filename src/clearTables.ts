@@ -19,20 +19,37 @@ const schemaFileSchema: z.ZodType<Array<{ Table: TableSchema }>> = z.array(
   }),
 );
 
-export const clearTables = async () => {
+const loadTables = async () => {
   const schemaFile = await fs.readFile(schemaFilePath(), 'utf8');
-  const tables = schemaFileSchema.parse(JSON.parse(schemaFile));
+
+  return schemaFileSchema.parse(JSON.parse(schemaFile));
+};
+
+const getTables = (() => {
+  let tablesPromise: ReturnType<typeof loadTables> | undefined;
+
+  return () => {
+    tablesPromise ??= loadTables();
+
+    return tablesPromise;
+  };
+})();
+
+export const clearTables = async () => {
+  const tables = await getTables();
   const dynamoClient = new DynamoDBClient({});
 
-  for (const { Table } of tables) {
-    await dynamoClient.send(
-      new DeleteTableCommand({ TableName: Table.TableName }),
-    );
-  }
+  await Promise.all(
+    tables.map(async ({ Table }) =>
+      dynamoClient.send(new DeleteTableCommand({ TableName: Table.TableName })),
+    ),
+  );
 
-  for (const { Table } of tables) {
-    await dynamoClient.send(new CreateTableCommand(Table));
-  }
+  await Promise.all(
+    tables.map(async ({ Table }) =>
+      dynamoClient.send(new CreateTableCommand(Table)),
+    ),
+  );
 };
 
 beforeEach(clearTables);

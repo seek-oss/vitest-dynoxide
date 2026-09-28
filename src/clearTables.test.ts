@@ -2,20 +2,13 @@ import fs from 'fs/promises';
 import os from 'os';
 import path from 'path';
 
-import {
-  afterAll,
-  beforeAll,
-  beforeEach,
-  describe,
-  expect,
-  it,
-  vi,
-} from 'vitest';
+import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
 
 import { clearTables } from './clearTables.js';
 import { schemaFilePath } from './globalSetup.js';
 
 const send = vi.fn();
+const readFileSpy = vi.spyOn(fs, 'readFile');
 
 vi.mock('@aws-sdk/client-dynamodb', () => ({
   CreateTableCommand: vi.fn(function (input: unknown) {
@@ -48,19 +41,14 @@ beforeAll(async () => {
   cwdSpy = vi.spyOn(process, 'cwd').mockReturnValue(cwd);
 });
 
-beforeEach(() => {
-  send.mockReset();
-});
-
 afterAll(async () => {
+  readFileSpy.mockRestore();
   cwdSpy.mockRestore();
   await fs.rm(cwd, { recursive: true, force: true });
 });
 
 describe('clearTables', () => {
-  it('recreates configured tables without their data', async () => {
-    await clearTables();
-
+  it('recreates configured tables before each test', async () => {
     expect(send.mock.calls).toEqual([
       [
         {
@@ -75,5 +63,10 @@ describe('clearTables', () => {
         },
       ],
     ]);
+
+    await clearTables();
+
+    expect(readFileSpy).toHaveBeenCalledTimes(1);
+    expect(send).toHaveBeenCalledTimes(4);
   });
 });
