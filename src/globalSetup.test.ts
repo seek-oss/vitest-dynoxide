@@ -213,6 +213,7 @@ describe('createSchemaFile', () => {
 
 describe('setup', () => {
   it('writes a schema file from the config in the working directory', async () => {
+    const provide = vi.fn();
     await fs.writeFile(
       path.join(cwd, 'vitest-dynoxide-config.ts'),
       `export default {
@@ -230,26 +231,28 @@ describe('setup', () => {
     const cwdSpy = vi.spyOn(process, 'cwd').mockReturnValue(cwd);
 
     try {
-      await setup();
+      await setup({ provide });
 
-      await expect(readSchemaFile(cwd)).resolves.toEqual([
-        { Table: expect.objectContaining({ TableName: 'Foo' }) },
-      ]);
+      const schema = [{ Table: expect.objectContaining({ TableName: 'Foo' }) }];
+      await expect(readSchemaFile(cwd)).resolves.toEqual(schema);
+      expect(provide).toHaveBeenCalledWith('vitestDynoxideTables', schema);
     } finally {
       cwdSpy.mockRestore();
     }
   });
 
   it('reuses an existing schema file', async () => {
+    const provide = vi.fn();
     const schema = [{ Table: { TableName: 'CachedTable' } }];
     await fs.writeFile(schemaFilePath(cwd), JSON.stringify(schema));
 
     const cwdSpy = vi.spyOn(process, 'cwd').mockReturnValue(cwd);
 
     try {
-      await setup();
+      await setup({ provide });
 
       await expect(readSchemaFile(cwd)).resolves.toEqual(schema);
+      expect(provide).toHaveBeenCalledWith('vitestDynoxideTables', schema);
       expect(send).not.toHaveBeenCalled();
     } finally {
       cwdSpy.mockRestore();

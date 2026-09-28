@@ -1,14 +1,8 @@
-import fs from 'fs/promises';
-import os from 'os';
-import path from 'path';
-
-import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import { clearTables } from './clearTables.js';
-import { schemaFilePath } from './globalSetup.js';
 
 const send = vi.fn();
-const readFileSpy = vi.spyOn(fs, 'readFile');
 
 vi.mock('@aws-sdk/client-dynamodb', () => ({
   CreateTableCommand: vi.fn(function (input: unknown) {
@@ -22,9 +16,6 @@ vi.mock('@aws-sdk/client-dynamodb', () => ({
   }),
 }));
 
-let cwd: string;
-let cwdSpy: ReturnType<typeof vi.spyOn>;
-
 const tables = [
   {
     Table: {
@@ -35,20 +26,8 @@ const tables = [
   },
 ];
 
-beforeAll(async () => {
-  cwd = await fs.mkdtemp(path.join(os.tmpdir(), 'vitest-dynoxide-'));
-  await fs.writeFile(schemaFilePath(cwd), JSON.stringify(tables));
-  cwdSpy = vi.spyOn(process, 'cwd').mockReturnValue(cwd);
-});
-
-afterAll(async () => {
-  readFileSpy.mockRestore();
-  cwdSpy.mockRestore();
-  await fs.rm(cwd, { recursive: true, force: true });
-});
-
 describe('clearTables', () => {
-  it('recreates configured tables before each test', async () => {
+  it('recreates injected tables before each test', async () => {
     expect(send.mock.calls).toEqual([
       [
         {
@@ -66,7 +45,6 @@ describe('clearTables', () => {
 
     await clearTables();
 
-    expect(readFileSpy).toHaveBeenCalledTimes(1);
     expect(send).toHaveBeenCalledTimes(4);
   });
 });
