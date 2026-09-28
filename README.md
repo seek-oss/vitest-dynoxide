@@ -191,21 +191,7 @@ const testTableClient = new DynamoDBClient(testTableOptions);
 After:
 
 ```typescript
-import { config } from '#src/config.js';
-
-/**
- * During tests, `vitest-dynoxide` sets `AWS_ENDPOINT_URL_DYNAMODB` per file.
- * Do not pass `endpoint` here so the SDK uses that env var.
- */
-const localOptions = {
-  region: 'local',
-  credentials: { accessKeyId: 'local', secretAccessKey: 'local' },
-};
-
-const testTableOptions =
-  config.dynamodbEnvironment === 'local' ? localOptions : {};
-
-const testTableClient = new DynamoDBClient(testTableOptions);
+const testTableClient = new DynamoDBClient();
 ```
 
 The setup file also sets `AWS_REGION` and local credentials,
