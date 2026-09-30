@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from 'vitest';
 
 import { clearTables } from './clearTables.js';
 
-const send = vi.fn();
+const send = vi.hoisted(() => vi.fn());
 
 vi.mock('@aws-sdk/client-dynamodb', () => ({
   CreateTableCommand: vi.fn(function (input: unknown) {

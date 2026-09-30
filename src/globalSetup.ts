@@ -7,6 +7,7 @@ import {
   type GlobalSecondaryIndexDescription,
   type LocalSecondaryIndexDescription,
 } from '@aws-sdk/client-dynamodb';
+import type { TestProject } from 'vitest/node';
 import * as z from 'zod';
 
 import {
@@ -79,8 +80,6 @@ export const createSchemaFile = async (tables: TableSchema[], cwd?: string) => {
 
   return schema;
 };
-
-import type { TestProject } from 'vitest/node'
 
 export const setup = async (project: TestProject) => {
   const hasSchemaFile = await fs.access(schemaFilePath()).then(
