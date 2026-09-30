@@ -80,14 +80,9 @@ export const createSchemaFile = async (tables: TableSchema[], cwd?: string) => {
   return schema;
 };
 
-type GlobalSetupProject = {
-  provide: (
-    key: typeof TABLE_SCHEMAS_CONTEXT_KEY,
-    value: DynoxideSchema,
-  ) => void;
-};
+import type { TestProject } from 'vitest/node'
 
-export const setup = async (project: GlobalSetupProject) => {
+export const setup = async (project: TestProject) => {
   const hasSchemaFile = await fs.access(schemaFilePath()).then(
     () => true,
     () => false,
