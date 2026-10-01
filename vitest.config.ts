@@ -18,6 +18,19 @@ export default defineConfig(
           test: {
             include: ['src/**/*.test.ts'],
             name: 'unit',
+            provide: {
+              vitestDynoxideTables: [
+                {
+                  Table: {
+                    TableName: 'TestTable',
+                    AttributeDefinitions: [
+                      { AttributeName: 'pk', AttributeType: 'S' },
+                    ],
+                    KeySchema: [{ AttributeName: 'pk', KeyType: 'HASH' }],
+                  },
+                },
+              ],
+            },
           },
         },
         {

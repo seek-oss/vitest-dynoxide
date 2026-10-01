@@ -26,6 +26,16 @@ export type ResolvedConfig = {
   tables: TableSchema[];
 };
 
+export type DynoxideSchema = Array<{ Table: TableSchema }>;
+
+export const TABLE_SCHEMAS_CONTEXT_KEY = 'vitestDynoxideTables';
+
+declare module 'vitest' {
+  export interface ProvidedContext {
+    vitestDynoxideTables: DynoxideSchema;
+  }
+}
+
 export const defineConfig = (config: VitestDynoxideConfig) => config;
 
 const tableSchemaSchema: z.ZodType<TableSchema> = z.looseObject({

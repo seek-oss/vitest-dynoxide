@@ -24,6 +24,10 @@
       "@seek/vitest-dynoxide/source": "./src/index.ts",
       "default": "./lib/index.mjs"
     },
+    "./clearTables": {
+      "@seek/vitest-dynoxide/source": "./src/clearTables.ts",
+      "default": "./lib/clearTables.mjs"
+    },
     "./globalSetup": {
       "@seek/vitest-dynoxide/source": "./src/globalSetup.ts",
       "default": "./lib/globalSetup.mjs"
@@ -67,6 +71,7 @@
   "publishConfig": {
     "exports": {
       ".": "./lib/index.mjs",
+      "./clearTables": "./lib/clearTables.mjs",
       "./globalSetup": "./lib/globalSetup.mjs",
       "./setupFile": "./lib/setupFile.mjs",
       "./package.json": "./package.json"

@@ -6,7 +6,7 @@ import {
   GetItemCommand,
   PutItemCommand,
 } from '@aws-sdk/client-dynamodb';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import { schemaFilePath, setup } from 'vitest-dynoxide/globalSetup';
 
@@ -45,8 +45,14 @@ describe('vitest-dynoxide', () => {
   });
 
   it('keeps the generated schema file for reuse', async () => {
-    await setup();
+    const provide = vi.fn();
+
+    await setup({ provide });
 
     await expect(fs.access(schemaFilePath())).resolves.toBeUndefined();
+    expect(provide).toHaveBeenCalledWith(
+      'vitestDynoxideTables',
+      expect.any(Array),
+    );
   });
 });

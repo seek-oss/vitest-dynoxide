@@ -7,11 +7,26 @@ import {
   type GlobalSecondaryIndexDescription,
   type LocalSecondaryIndexDescription,
 } from '@aws-sdk/client-dynamodb';
+import type { TestProject } from 'vitest/node';
+import * as z from 'zod';
 
-import { type TableSchema, loadConfig } from './config.js';
+import {
+  type DynoxideSchema,
+  TABLE_SCHEMAS_CONTEXT_KEY,
+  type TableSchema,
+  loadConfig,
+} from './config.js';
 
 export const schemaFilePath = (cwd: string = process.cwd()) =>
   path.resolve(cwd, 'vitest-dynoxide.schemas.json');
+
+const schemaFileSchema: z.ZodType<DynoxideSchema> = z.array(
+  z.object({
+    Table: z.looseObject({
+      TableName: z.string(),
+    }),
+  }),
+);
 
 const toSecondaryIndexes = (
   indexes:
@@ -55,26 +70,30 @@ const resolveTable = async (
 export const createSchemaFile = async (tables: TableSchema[], cwd?: string) => {
   const client = new DynamoDBClient({});
 
-  const schema = await Promise.all(
+  const schema: DynoxideSchema = await Promise.all(
     tables.map(async (table) => ({
       Table: await resolveTable(client, table),
     })),
   );
 
   await fs.writeFile(schemaFilePath(cwd), JSON.stringify(schema, null, 2));
+
+  return schema;
 };
 
-export const setup = async () => {
+type GlobalSetupProject = Pick<TestProject, 'provide'>;
+
+export const setup = async (project: GlobalSetupProject) => {
   const hasSchemaFile = await fs.access(schemaFilePath()).then(
     () => true,
     () => false,
   );
 
-  if (hasSchemaFile) {
-    return;
-  }
+  const schema = hasSchemaFile
+    ? schemaFileSchema.parse(
+        JSON.parse(await fs.readFile(schemaFilePath(), 'utf8')),
+      )
+    : await loadConfig().then(({ tables }) => createSchemaFile(tables));
 
-  const { tables } = await loadConfig();
-
-  await createSchemaFile(tables);
+  project.provide(TABLE_SCHEMAS_CONTEXT_KEY, schema);
 };
