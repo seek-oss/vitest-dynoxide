@@ -12,6 +12,40 @@ export default defineConfig(
       env: {
         DEPLOYMENT: 'test',
       },
+      projects: [
+        {
+          extends: true,
+          test: {
+            include: ['src/**/*.test.ts'],
+            name: 'unit',
+            provide: {
+              vitestDynoxideTables: [
+                {
+                  Table: {
+                    TableName: 'TestTable',
+                    AttributeDefinitions: [
+                      { AttributeName: 'pk', AttributeType: 'S' },
+                    ],
+                    KeySchema: [{ AttributeName: 'pk', KeyType: 'HASH' }],
+                  },
+                },
+              ],
+            },
+          },
+        },
+        {
+          extends: true,
+          test: {
+            name: 'default',
+            globalSetup: [
+              './tests/default/vitest.setup.ts',
+              './src/globalSetup.ts',
+            ],
+            include: ['tests/default/**/*.test.ts'],
+            setupFiles: ['vitest-dynoxide/setupFile'],
+          },
+        },
+      ],
       coverage: {
         thresholds: {
           branches: 100,

@@ -1,7 +1,6 @@
-/**
- * Writes the module name to stdout.
- * Thrilling stuff.
- */
-export const log = () =>
-  /* eslint-disable-next-line no-console */
-  console.log('vitest-dynoxide');
+export {
+  defineConfig,
+  type TableConfig,
+  type TableSchema,
+  type VitestDynoxideConfig,
+} from './config.js';
