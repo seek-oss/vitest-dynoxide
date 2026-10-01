@@ -40,10 +40,9 @@ const toSecondaryIndexes = (
       : [],
   );
 
-const resolveTable = async (
-  client: DynamoDBClient,
-  table: TableSchema,
-): Promise<TableSchema> => {
+const client = new DynamoDBClient({});
+
+const resolveTable = async (table: TableSchema): Promise<TableSchema> => {
   if (table.AttributeDefinitions && table.KeySchema) {
     return table;
   }
@@ -67,12 +66,10 @@ const resolveTable = async (
   };
 };
 
-const client = new DynamoDBClient({});
-
 export const createSchemaFile = async (tables: TableSchema[], cwd?: string) => {
   const schema: DynoxideSchema = await Promise.all(
     tables.map(async (table) => ({
-      Table: await resolveTable(client, table),
+      Table: await resolveTable(table),
     })),
   );
 
