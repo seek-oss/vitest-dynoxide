@@ -2,25 +2,6 @@
 
 [![Powered by skuba](https://img.shields.io/badge/🤿%20skuba-powered-009DC4)](https://github.com/seek-oss/skuba)
 
-This package is intended to be public on [seek-oss].
-To create an internal package,
-run `skuba init` and select the `private-npm-package` template.
-
-Next steps:
-
-1. [ ] Read [SEEK's Open Source RFC].
-2. [ ] Create a new repository in the [seek-oss] GitHub organisation.
-3. [ ] Push local commits to the upstream GitHub branch.
-4. [ ] Configure [GitHub repository settings].
-5. [ ] Keep dependencies up to date with [Renovate];
-       request installation in [#open-source].
-6. [ ] Delete this checklist 😌.
-
-[#open-source]: https://slack.com/app_redirect?channel=C39P1H2SU
-[GitHub repository settings]: https://github.com/seek-oss/vitest-dynoxide/settings
-[Renovate]: https://github.com/apps/renovate
-[SEEK's Open Source RFC]: https://rfc.skinfra.xyz/RFC016-Open-Source.html
-
 ## Usage
 
 `vitest-dynoxide` runs your integration tests against a local [dynoxide] instance
