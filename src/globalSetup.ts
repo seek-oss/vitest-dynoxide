@@ -67,8 +67,9 @@ const resolveTable = async (
   };
 };
 
+const client = new DynamoDBClient({});
+
 export const createSchemaFile = async (tables: TableSchema[], cwd?: string) => {
-  const client = new DynamoDBClient({});
 
   const schema: DynoxideSchema = await Promise.all(
     tables.map(async (table) => ({
