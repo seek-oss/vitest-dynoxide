@@ -20,11 +20,16 @@ const canConnect = (port: number) =>
     socket.once('error', () => settle(false));
   });
 
+const getAvailablePort = () => {
+  using bound = new net.BoundSocket({ host: '127.0.0.1' });
+  return bound.address().port;
+};
+
 // Spawn a fresh in-memory `dynoxide` instance per integration test file (see
 // `fileParallelism: false` in vitest.config.ts) instead of sharing one
 // DynamoDB Local instance across the whole run. This keeps test files
 // isolated without needing Docker.
-const DYNAMODB_PORT = 10000 + Math.floor(Math.random() * 10000);
+const DYNAMODB_PORT = getAvailablePort();
 const DYNAMODB_ENDPOINT = `http://127.0.0.1:${DYNAMODB_PORT}`;
 vi.stubEnv('DYNAMODB_ENDPOINT', DYNAMODB_ENDPOINT);
 vi.stubEnv('AWS_ENDPOINT_URL_DYNAMODB', DYNAMODB_ENDPOINT);

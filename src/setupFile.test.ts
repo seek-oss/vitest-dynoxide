@@ -17,9 +17,11 @@ vi.mock('node:child_process', () => ({
 vi.mock('node:net', async () => {
   const { EventEmitter } =
     await vi.importActual<typeof import('node:events')>('node:events');
+  const net = await vi.importActual<typeof import('node:net')>('node:net');
 
   return {
     default: {
+      ...net,
       connect: connect.mockImplementation(() => {
         const socket = Object.assign(new EventEmitter(), {
           destroy: vi.fn(),

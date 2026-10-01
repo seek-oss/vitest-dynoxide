@@ -278,7 +278,7 @@ or spell the definition out in full to run offline.
 
 ### Prerequisites
 
-- Node.js 22+
+- Node.js 24.19+
 - pnpm
 
 ```shell
