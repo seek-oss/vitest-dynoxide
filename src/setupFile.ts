@@ -42,7 +42,7 @@ const dynoxideBin = fileURLToPath(import.meta.resolve('dynoxide/bin/dynoxide'));
 const dynoxide = spawn(
   dynoxideBin,
   ['--schema', 'vitest-dynoxide.schemas.json', '--port', String(DYNAMODB_PORT)],
-  { stdio: 'ignore' },
+  { stdio: ['ignore', 'ignore', 'ignore'] },
 );
 
 await vi.waitUntil(() => canConnect(DYNAMODB_PORT), {
