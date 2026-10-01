@@ -1,5 +1,11 @@
 # vitest-dynoxide
 
+## 2.0.0
+
+### Major Changes
+
+- Require Node.js 24.19+ so setup can reserve a free port with `net.BoundSocket`. ([#5](https://github.com/seek-oss/vitest-dynoxide/pull/5))
+
 ## 1.0.0
 
 ### Major Changes
