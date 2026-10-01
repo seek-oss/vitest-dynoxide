@@ -81,7 +81,9 @@ export const createSchemaFile = async (tables: TableSchema[], cwd?: string) => {
   return schema;
 };
 
-export const setup = async (project: TestProject) => {
+type GlobalSetupProject = Pick<TestProject, 'provide'>;
+
+export const setup = async (project: GlobalSetupProject) => {
   const hasSchemaFile = await fs.access(schemaFilePath()).then(
     () => true,
     () => false,
