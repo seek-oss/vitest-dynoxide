@@ -1,5 +1,11 @@
 # vitest-dynoxide
 
+## 2.0.1
+
+### Patch Changes
+
+- Bump `dynoxide` to `1.5.0` and spawn it with `--log quiet` so startup and shutdown messages no longer clutter Vitest output on stderr. ([#7](https://github.com/seek-oss/vitest-dynoxide/pull/7))
+
 ## 2.0.0
 
 ### Major Changes
