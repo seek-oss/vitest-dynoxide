@@ -48,11 +48,14 @@ describe('setupFile', () => {
       'vitest-dynoxide.schemas.json',
       '--port',
       expect.stringMatching(/^\d+$/),
+      '--log',
+      'quiet',
     ]);
   });
 
   it('waits for dynoxide and configures the AWS SDK', () => {
-    const port = args?.at(-1);
+    const portIndex = args?.indexOf('--port') ?? -1;
+    const port = args?.[portIndex + 1];
     const endpoint = `http://127.0.0.1:${port}`;
 
     expect(connect).toHaveBeenCalledTimes(2);
