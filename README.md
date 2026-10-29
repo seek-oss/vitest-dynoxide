@@ -1,5 +1,6 @@
 # 🦕 vitest-dynoxide
 
+[![npm](https://img.shields.io/npm/v/vitest-dynoxide)](https://www.npmjs.com/package/vitest-dynoxide)
 [![Powered by skuba](https://img.shields.io/badge/🤿%20skuba-powered-009DC4)](https://github.com/seek-oss/skuba)
 
 ## Usage

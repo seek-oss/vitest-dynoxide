@@ -2,6 +2,13 @@
   "name": "vitest-dynoxide",
   "version": "2.0.1",
   "description": "Vitest integration for testing against Dynoxide instances",
+  "keywords": [
+    "aws",
+    "dynamodb",
+    "dynoxide",
+    "testing",
+    "vitest"
+  ],
   "homepage": "https://github.com/seek-oss/vitest-dynoxide#readme",
   "bugs": {
     "url": "https://github.com/seek-oss/vitest-dynoxide/issues"
