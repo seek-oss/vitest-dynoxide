@@ -47,16 +47,41 @@ To infer a table from another account, use its full ARN:
 
 ```typescript
 export default defineConfig({
-  tables: [
-    'arn:aws:dynamodb:ap-southeast-2:007370059916:table/PostingPreferences',
-  ],
+  tables: ['arn:aws:dynamodb:ap-southeast-2:123456789012:table/TestTable'],
 });
 ```
 
 The source table identifier is passed unchanged to `DescribeTable`.
 The caller's identity policy and the table's resource policy must both allow
 that operation. The local table uses the plain name returned by AWS, so
-application code continues to access `PostingPreferences`.
+application code continues to access `TestTable`.
+
+You may need a resource policy on the table.
+This example lets any principal in your AWS Organization describe production
+`TestTable`, so schema inference works while you are authenticated to any of
+your accounts:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "AllowDescribeTable",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "*"
+      },
+      "Action": ["dynamodb:DescribeTable"],
+      "Resource": "arn:aws:dynamodb:ap-southeast-2:123456789012:table/TestTable",
+      "Condition": {
+        "StringEquals": {
+          "aws:PrincipalOrgID": "o-xxxxxxxxxx"
+        }
+      }
+    }
+  ]
+}
+```
 
 A full definition is used as-is and makes no AWS calls,
 so your tests run offline:
@@ -213,12 +238,18 @@ it('round-trips a test table', async () => {
 });
 ```
 
-5. Add `/vitest-dynoxide.schemas.json` to `.gitignore`
+5. Decide whether to gitignore `/vitest-dynoxide.schemas.json`
 
 Global setup writes `/vitest-dynoxide.schemas.json` to the project root
 and reuses it between test runs.
-Delete the file whenever you need to refresh your local schema from AWS.
-Because the file is ignored, CI generates a fresh schema from AWS on each clean checkout.
+Delete the file whenever you need to refresh the schema from AWS.
+
+You may or may not want to gitignore it:
+
+- **Ignore it** if inferred tables should always match live AWS.
+  Clean CI checkouts generate a fresh schema, so those jobs need credentials.
+- **Commit it** if tests should run offline, including in CI.
+  The committed file is reused as-is until you delete it and regenerate.
 
 ### How it works
 

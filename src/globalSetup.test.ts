@@ -77,10 +77,10 @@ describe('createSchemaFile', () => {
 
   it('infers a cross-account table by ARN using its local table name', async () => {
     const tableArn =
-      'arn:aws:dynamodb:ap-southeast-2:007370059916:table/PostingPreferences';
+      'arn:aws:dynamodb:ap-southeast-2:123456789012:table/TestTable';
     send.mockResolvedValue(
       describeTableResponse({
-        TableName: 'PostingPreferences',
+        TableName: 'TestTable',
         AttributeDefinitions: [{ AttributeName: 'pk', AttributeType: 'S' }],
         KeySchema: [{ AttributeName: 'pk', KeyType: 'HASH' }],
       }),
@@ -94,7 +94,7 @@ describe('createSchemaFile', () => {
     await expect(readSchemaFile(cwd)).resolves.toEqual([
       {
         Table: {
-          TableName: 'PostingPreferences',
+          TableName: 'TestTable',
           AttributeDefinitions: [{ AttributeName: 'pk', AttributeType: 'S' }],
           KeySchema: [{ AttributeName: 'pk', KeyType: 'HASH' }],
         },
