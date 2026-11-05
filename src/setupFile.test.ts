@@ -5,41 +5,53 @@ import { describe, expect, it, vi } from 'vitest';
 
 import './setupFile.js';
 
-const { connect, kill } = vi.hoisted(() => ({
-  connect: vi.fn(),
-  kill: vi.fn(),
-}));
+const { kill } = vi.hoisted(() => ({ kill: vi.fn() }));
 
-vi.mock('node:child_process', () => ({
-  spawn: vi.fn(() => ({ kill })),
-}));
-
-vi.mock('node:net', async () => {
+vi.mock('node:child_process', async () => {
   const { EventEmitter } =
     await vi.importActual<typeof import('node:events')>('node:events');
-  const net = await vi.importActual<typeof import('node:net')>('node:net');
+
+  let spawnCount = 0;
 
   return {
-    default: {
-      ...net,
-      connect: connect.mockImplementation(() => {
-        const socket = Object.assign(new EventEmitter(), {
-          destroy: vi.fn(),
-        });
-        const event = connect.mock.calls.length === 1 ? 'error' : 'connect';
+    spawn: vi.fn((_command: string, args: string[]) => {
+      spawnCount += 1;
+      const isFirstSpawn = spawnCount === 1;
+      const port = args[args.indexOf('--port') + 1];
 
-        queueMicrotask(() => socket.emit(event));
+      const stderr = Object.assign(new EventEmitter(), { resume: vi.fn() });
+      const child = Object.assign(new EventEmitter(), { kill, stderr });
 
-        return socket;
-      }),
-    },
+      queueMicrotask(() => {
+        if (isFirstSpawn) {
+          stderr.emit(
+            'data',
+            Buffer.from(`error: port ${port} is already in use\n`),
+          );
+          child.emit('exit', 1, null);
+          return;
+        }
+
+        stderr.emit(
+          'data',
+          Buffer.from(`Dynoxide listening on http://127.0.0.1:${port}\n`),
+        );
+      });
+
+      return child;
+    }),
   };
 });
 
-const [command, args] = vi.mocked(spawn).mock.calls[0] ?? [];
+const spawnCalls = vi.mocked(spawn).mock.calls;
+
+const portOf = (args: readonly string[] | undefined) =>
+  args?.[args.indexOf('--port') + 1];
 
 describe('setupFile', () => {
   it('spawns dynoxide against the generated schema file', () => {
+    const [command, args] = spawnCalls[0] ?? [];
+
     expect(command).toBe(
       fileURLToPath(import.meta.resolve('dynoxide/bin/dynoxide')),
     );
@@ -48,21 +60,19 @@ describe('setupFile', () => {
       'vitest-dynoxide.schemas.json',
       '--port',
       expect.stringMatching(/^\d+$/),
-      '--log',
-      'quiet',
     ]);
   });
 
-  it('waits for dynoxide and configures the AWS SDK', () => {
-    const portIndex = args?.indexOf('--port') ?? -1;
-    const port = args?.[portIndex + 1];
-    const endpoint = `http://127.0.0.1:${port}`;
+  it('retries on a fresh port when dynoxide exits before listening', () => {
+    expect(spawnCalls).toHaveLength(2);
+  });
 
-    expect(connect).toHaveBeenCalledTimes(2);
-    expect(connect).toHaveBeenLastCalledWith({
-      host: '127.0.0.1',
-      port: Number(port),
-    });
-    expect(process.env.DYNAMODB_ENDPOINT).toBe(endpoint);
+  it('configures the AWS SDK with the port dynoxide is listening on', () => {
+    const port = portOf(spawnCalls[1]?.[1]);
+
+    expect(process.env.DYNAMODB_ENDPOINT).toBe(`http://127.0.0.1:${port}`);
+    expect(process.env.AWS_ENDPOINT_URL_DYNAMODB).toBe(
+      `http://127.0.0.1:${port}`,
+    );
   });
 });
