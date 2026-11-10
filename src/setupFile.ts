@@ -1,61 +1,60 @@
 import { spawn } from 'node:child_process';
-import net from 'node:net';
+import { once } from 'node:events';
+import { createInterface } from 'node:readline';
+import type { Readable } from 'node:stream';
 import { fileURLToPath } from 'node:url';
 
 import { afterAll, vi } from 'vitest';
 
 const READY_TIMEOUT_MS = 10_000;
-const POLL_INTERVAL_MS = 25;
+const LISTENING_LINE = /^Dynoxide listening on http:\/\/127\.0\.0\.1:(\d+)$/;
 
-const canConnect = (port: number) =>
-  new Promise<boolean>((resolve) => {
-    const socket = net.connect({ host: '127.0.0.1', port });
+const dynoxideBin = fileURLToPath(import.meta.resolve('dynoxide/bin/dynoxide'));
 
-    const settle = (isConnected: boolean) => {
-      socket.destroy();
-      resolve(isConnected);
-    };
+// `--port 0` has the OS assign a free port as dynoxide binds, so it is read
+// back from this process's own startup line rather than chosen up front.
+const waitForPort = async (stderr: Readable) => {
+  const signal = AbortSignal.timeout(READY_TIMEOUT_MS);
+  const output: string[] = [];
 
-    socket.once('connect', () => settle(true));
-    socket.once('error', () => settle(false));
-  });
+  for await (const line of createInterface({ input: stderr, signal })) {
+    const port = Number(LISTENING_LINE.exec(line)?.[1]);
+    if (port) {
+      return port;
+    }
+    output.push(line);
+  }
 
-const getAvailablePort = () => {
-  using bound = new net.BoundSocket({ host: '127.0.0.1' });
-  return bound.address().port;
+  const reason = signal.aborted
+    ? `did not start within ${READY_TIMEOUT_MS}ms`
+    : 'exited before it was ready';
+  throw new Error(`dynoxide ${reason}\n${output.join('\n')}`);
 };
 
-// Spawn a fresh in-memory `dynoxide` instance per integration test file (see
-// `fileParallelism: false` in vitest.config.ts) instead of sharing one
-// DynamoDB Local instance across the whole run. This keeps test files
+// Spawn a fresh in-memory `dynoxide` instance per test file instead of sharing
+// one DynamoDB Local instance across the whole run. This keeps test files
 // isolated without needing Docker.
-const DYNAMODB_PORT = getAvailablePort();
-const DYNAMODB_ENDPOINT = `http://127.0.0.1:${DYNAMODB_PORT}`;
+const dynoxide = spawn(
+  dynoxideBin,
+  ['--schema', 'vitest-dynoxide.schemas.json', '--port', '0'],
+  { stdio: ['ignore', 'ignore', 'pipe'] },
+);
+
+await once(dynoxide, 'spawn');
+
+const port = await waitForPort(dynoxide.stderr).catch((error: unknown) => {
+  dynoxide.kill();
+  throw error;
+});
+
+dynoxide.stderr.resume();
+
+const DYNAMODB_ENDPOINT = `http://127.0.0.1:${port}`;
 vi.stubEnv('DYNAMODB_ENDPOINT', DYNAMODB_ENDPOINT);
 vi.stubEnv('AWS_ENDPOINT_URL_DYNAMODB', DYNAMODB_ENDPOINT);
 vi.stubEnv('AWS_REGION', 'local');
 vi.stubEnv('AWS_ACCESS_KEY_ID', 'local');
 vi.stubEnv('AWS_SECRET_ACCESS_KEY', 'local');
-
-const dynoxideBin = fileURLToPath(import.meta.resolve('dynoxide/bin/dynoxide'));
-
-const dynoxide = spawn(
-  dynoxideBin,
-  [
-    '--schema',
-    'vitest-dynoxide.schemas.json',
-    '--port',
-    String(DYNAMODB_PORT),
-    '--log',
-    'quiet',
-  ],
-  { stdio: ['ignore', 'ignore', 'inherit'] },
-);
-
-await vi.waitUntil(() => canConnect(DYNAMODB_PORT), {
-  interval: POLL_INTERVAL_MS,
-  timeout: READY_TIMEOUT_MS,
-});
 
 afterAll(() => {
   dynoxide.kill();

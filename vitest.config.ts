@@ -37,10 +37,7 @@ export default defineConfig(
           extends: true,
           test: {
             name: 'default',
-            globalSetup: [
-              './tests/default/vitest.setup.ts',
-              './src/globalSetup.ts',
-            ],
+            globalSetup: ['./src/globalSetup.ts'],
             include: ['tests/default/**/*.test.ts'],
             setupFiles: ['vitest-dynoxide/setupFile'],
           },

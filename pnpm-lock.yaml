@@ -12,8 +12,8 @@ importers:
         specifier: ^3.0.0
         version: 3.1109.0
       dynoxide:
-        specifier: ^1.5.0
-        version: 1.5.0
+        specifier: ^1.6.0
+        version: 1.6.0
       vitest:
         specifier: ^4.1.10 || ^5.0.0
         version: 4.1.10(@types/node@24.19.0)(@vitest/coverage-istanbul@4.1.10)(@vitest/coverage-v8@4.1.10)(@vitest/ui@4.1.10)(vite@8.2.0(@types/node@24.19.0)(esbuild@0.28.1)(tsx@4.23.1)(yaml@2.9.0))
@@ -354,28 +354,28 @@ packages:
     resolution: {integrity: sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==}
     engines: {node: '>=0.1.90'}
 
-  '@dynoxide/darwin-arm64@1.5.0':
-    resolution: {integrity: sha512-L/iCX9GTbHoleYNtEtDoQDSYZurPg6Iy4bWqmTFdjSiS1A3lw3R8epK7DwWFq33wIJm/1GXLNmd2H3jewZWZwQ==}
+  '@dynoxide/darwin-arm64@1.6.0':
+    resolution: {integrity: sha512-0UMuOaquLzGG60f4fQaa6LuMmPy2ryIdtZSrm1KLAPRwqpJRv6k2MFN8+59N3udmRuqKZCwZdDJ/4coKdh7S4g==}
     cpu: [arm64]
     os: [darwin]
 
-  '@dynoxide/darwin-x64@1.5.0':
-    resolution: {integrity: sha512-th6kh1beYC6G2BsK7mgJfNHbQwTJWeZM1SYPSGUD424tMTsWXmmtMiSirKquGi84vOQMAmttb3qFklImR+wW6Q==}
+  '@dynoxide/darwin-x64@1.6.0':
+    resolution: {integrity: sha512-73mpb4QO7KncNP+yJFCkw1b3ZLEhBTE4g970x2+8bNhzYGEH44DhJt5uHrQvli8zWSdE8pTbkCpOKpEe4G45yA==}
     cpu: [x64]
     os: [darwin]
 
-  '@dynoxide/linux-arm64@1.5.0':
-    resolution: {integrity: sha512-jAB1JSLLNf1CuHVKWYojJ6X6a9rr5/Ab/Y1YW4jRYD3tqPVFn3HQgXBwFp+gqL5Y4z/X1xyvATKO69eR419ZEw==}
+  '@dynoxide/linux-arm64@1.6.0':
+    resolution: {integrity: sha512-ZSEGEpMUbL41J+6nXR67O8A9JIjKEPtbZf067RGDQVhzn9PLKHF90him0GUKzYfXSsGNdlohWaBc7QxMA72hMQ==}
     cpu: [arm64]
     os: [linux]
 
-  '@dynoxide/linux-x64@1.5.0':
-    resolution: {integrity: sha512-TK2cf3bRHLziEJjLpL7DMt3fLmrZqy1CYlKdGCASBDMxRvYnExM65GPj5ic7Koy1qe4gezts8oeezZlEugEOvA==}
+  '@dynoxide/linux-x64@1.6.0':
+    resolution: {integrity: sha512-a0DXY21acEa1JPJ3HexpVwcmeg3ionKPL/WqYCsnOKj8sy3tWPZybtTZrarbFsTHPojiHVZuWP2zvx+Eq0/RBQ==}
     cpu: [x64]
     os: [linux]
 
-  '@dynoxide/win32-x64@1.5.0':
-    resolution: {integrity: sha512-qUrEf3FZuna68/DKLXJleoYZHPL++4uGtNzybzH9g8gk2F3n1FanfBmmhgJhKPLhY+n6b/fW0t4bjqlngmGpRg==}
+  '@dynoxide/win32-x64@1.6.0':
+    resolution: {integrity: sha512-aDN4gT5sIuoFPiuxms5ih7Z/fJNc/xvWLqeOguc/5TTKCFQdmYE9n4s9Eq6tvxhIl0sJY3i2Ke+Rwxje0IJ6+g==}
     cpu: [x64]
     os: [win32]
 
@@ -1946,8 +1946,8 @@ packages:
   duplexer2@0.1.4:
     resolution: {integrity: sha512-asLFVfWWtJ90ZyOUHMqk7/S2w2guQKxUI2itj3d92ADHhxUSbCMGi1f1cBcJ7xM1To+pE/Khbwo1yuNbMEPKeA==}
 
-  dynoxide@1.5.0:
-    resolution: {integrity: sha512-cDDMGxLUJb5oo3iSOnH4Uept+G9l2gMLmtN7DZwtqxlNSUiZozKL1bds0AbMp/jezr+8BQoakrZA8XufQmMtdA==}
+  dynoxide@1.6.0:
+    resolution: {integrity: sha512-QpZB+69uAzFFYz4YqFoVhISUA+Zo3wxoFwDU5YJaLLsMZdgyirhPJQMn1Ct0RD8KRH4TOQD8C14clLWAODOrOg==}
     engines: {node: '>=16'}
     hasBin: true
 
@@ -4990,19 +4990,19 @@ snapshots:
   '@colors/colors@1.5.0':
     optional: true
 
-  '@dynoxide/darwin-arm64@1.5.0':
+  '@dynoxide/darwin-arm64@1.6.0':
     optional: true
 
-  '@dynoxide/darwin-x64@1.5.0':
+  '@dynoxide/darwin-x64@1.6.0':
     optional: true
 
-  '@dynoxide/linux-arm64@1.5.0':
+  '@dynoxide/linux-arm64@1.6.0':
     optional: true
 
-  '@dynoxide/linux-x64@1.5.0':
+  '@dynoxide/linux-x64@1.6.0':
     optional: true
 
-  '@dynoxide/win32-x64@1.5.0':
+  '@dynoxide/win32-x64@1.6.0':
     optional: true
 
   '@emnapi/core@1.10.0':
@@ -6500,13 +6500,13 @@ snapshots:
     dependencies:
       readable-stream: 2.3.8
 
-  dynoxide@1.5.0:
+  dynoxide@1.6.0:
     optionalDependencies:
-      '@dynoxide/darwin-arm64': 1.5.0
-      '@dynoxide/darwin-x64': 1.5.0
-      '@dynoxide/linux-arm64': 1.5.0
-      '@dynoxide/linux-x64': 1.5.0
-      '@dynoxide/win32-x64': 1.5.0
+      '@dynoxide/darwin-arm64': 1.6.0
+      '@dynoxide/darwin-x64': 1.6.0
+      '@dynoxide/linux-arm64': 1.6.0
+      '@dynoxide/linux-x64': 1.6.0
+      '@dynoxide/win32-x64': 1.6.0
 
   ejs@6.0.1: {}
 
