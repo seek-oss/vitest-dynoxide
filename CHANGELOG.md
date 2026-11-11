@@ -1,5 +1,13 @@
 # vitest-dynoxide
 
+## 2.0.2
+
+### Patch Changes
+
+- Fix flaky `ECONNREFUSED` errors when test files run in parallel ([#10](https://github.com/seek-oss/vitest-dynoxide/pull/10))
+
+  Each test file chose a free port and released it before starting `dynoxide`, so another file could take the port in between.
+
 ## 2.0.1
 
 ### Patch Changes
